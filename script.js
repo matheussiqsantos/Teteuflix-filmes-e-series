@@ -1,4 +1,3 @@
-// Catálogo de Filmes e Séries em JSON
 const catalog = [
   {
     id: 1,
@@ -46,8 +45,8 @@ const catalog = [
     type: "movie",
     category: "Filmes",
     description: "Após os eventos devastadores de Guerra Infinita, os Vingadores restantes se reúnem para reverter as ações de Thanos e restaurar o equilíbrio do universo.",
-    banner: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200&auto=format&fit=crop&q=80", // <-- AGORA USA IMAGEM DE BREAKING BAD
-    cover: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&auto=format&fit=crop&q=80", // <-- AGORA USA IMAGEM DE BREAKING BAD
+    banner: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200&auto=format&fit=crop&q=80",
+    cover: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&auto=format&fit=crop&q=80",
     trailer: "https://www.youtube.com/embed/g6ng8iy-l0U"
   },
   {
@@ -58,7 +57,7 @@ const catalog = [
     description: "Após se mudar para uma nova cidade, as emoções de Riley — Alegria, Tristeza, Medo, Raiva e Nojinho — entram em conflito sobre como navegar em sua nova vida.",
     banner: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1200&auto=format&fit=crop&q=80",
     cover: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400&auto=format&fit=crop&q=80",
-    trailer: "https://www.youtube.com/embed/SG20CoUb5wA?si=PiYQpUhK8rigDx9J"
+    trailer: "https://www.youtube.com/embed/LSpeM7G4LXY"
   },
   {
     id: 7,
@@ -66,8 +65,8 @@ const catalog = [
     type: "series",
     category: "Séries",
     description: "Um professor de química do ensino médio diagnosticado com câncer inoperável se junta a um ex-aluno para produzir e vender metanfetamina e garantir o futuro de sua família.",
-    banner: "https://images.unsplash.com/photo-1635863138275-d9b33299680b?w=1200&auto=format&fit=crop&q=80", // <-- AGORA USA IMAGEM DOS VINGADORES
-    cover: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400&auto=format&fit=crop&q=80", // <-- AGORA USA IMAGEM DOS VINGADORES
+    banner: "https://images.unsplash.com/photo-1635863138275-d9b33299680b?w=1200&auto=format&fit=crop&q=80",
+    cover: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400&auto=format&fit=crop&q=80",
     trailer: "https://www.youtube.com/embed/HhesaQXLuRY"
   },
   {
@@ -78,11 +77,10 @@ const catalog = [
     description: "Em uma ilha de opostos, um grupo de adolescentes locais embarca em uma busca perigosa por um tesouro lendário ligado ao desaparecimento do pai do líder do grupo.",
     banner: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&auto=format&fit=crop&q=80",
     cover: "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&auto=format&fit=crop&q=80",
-    trailer: "https://www.youtube.com/embed/5uOEQM5vq94?si=MVF94qRDS9syx8iw"
+    trailer: "https://www.youtube.com/embed/uAIs4C3pWag"
   }
 ];
 
-// Elementos do DOM
 const heroBanner = document.getElementById("hero-banner");
 const heroTitle = document.getElementById("hero-title");
 const heroDescription = document.getElementById("hero-description");
@@ -97,15 +95,29 @@ const closeModal = document.getElementById("close-modal");
 const videoPlayer = document.getElementById("video-player");
 const modalTitle = document.getElementById("modal-title");
 
-// Inicializar Destaque (Hero)
+let heroInterval = null;
+let currentHeroIndex = 0;
+
+function startHeroTimer() {
+  if (heroInterval) {
+    clearInterval(heroInterval);
+  }
+
+  heroInterval = setInterval(() => {
+    currentHeroIndex = (currentHeroIndex + 1) % catalog.length;
+    setupHero(catalog[currentHeroIndex]);
+  }, 20000);
+}
+
 function setupHero(item) {
   heroBanner.style.backgroundImage = `url('${item.banner}')`;
   heroTitle.textContent = item.title;
   heroDescription.textContent = item.description;
   heroPlayBtn.onclick = () => openModal(item);
+  
+  startHeroTimer();
 }
 
-// Renderizar Cards de Filmes e Séries
 function renderCatalog(items) {
   seriesGrid.innerHTML = "";
   moviesGrid.innerHTML = "";
@@ -130,7 +142,6 @@ function renderCatalog(items) {
   });
 }
 
-// Abrir e Fechar Modal
 function openModal(item) {
   modalTitle.textContent = item.title;
   videoPlayer.src = `${item.trailer}?autoplay=1`;
@@ -139,10 +150,9 @@ function openModal(item) {
 
 closeModal.addEventListener("click", () => {
   videoModal.style.display = "none";
-  videoPlayer.src = ""; // Para o vídeo ao fechar
+  videoPlayer.src = ""; // Interrompe o áudio/vídeo ao fechar
 });
 
-// Fechar ao clicar fora do modal
 window.addEventListener("click", (e) => {
   if (e.target === videoModal) {
     videoModal.style.display = "none";
@@ -150,7 +160,6 @@ window.addEventListener("click", (e) => {
   }
 });
 
-// Pesquisa em tempo real
 searchInput.addEventListener("input", (e) => {
   const query = e.target.value.toLowerCase();
   const filtered = catalog.filter(item => 
@@ -159,6 +168,5 @@ searchInput.addEventListener("input", (e) => {
   renderCatalog(filtered);
 });
 
-// Inicialização da Página
 setupHero(catalog[0]);
 renderCatalog(catalog);

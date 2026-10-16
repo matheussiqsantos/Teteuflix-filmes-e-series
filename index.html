@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeteuFlix - Filmes e Séries</title>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">
+      <i class="ph-fill ph-popcorn"></i>
+      <span>CineStream</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#" class="active">Início</a>
+      <a href="#">Séries</a>
+      <a href="#">Filmes</a>
+      <a href="#">Em Alta</a>
+    </nav>
+    <div class="search-box">
+      <i class="ph-bold ph-magnifying-glass"></i>
+      <input type="text" id="search-input" placeholder="Buscar título...">
+    </div>
+  </header>
+
+  <section class="hero-banner" id="hero-banner">
+    <div class="hero-content">
+      <span class="badge">Destaque</span>
+      <h1 id="hero-title">Carregando...</h1>
+      <p id="hero-description">Carregando sinopse do filme em destaque...</p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary" id="hero-play-btn">
+          <i class="ph-fill ph-play"></i> Assistir Agora
+        </button>
+        <button class="btn btn-secondary">
+          <i class="ph-bold ph-info"></i> Mais Informações
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <main class="content-container">
+    <section class="row">
+      <h2>Séries em Alta</h2>
+      <div class="card-grid" id="series-grid"></div>
+    </section>
+
+    <section class="row">
+      <h2>Filmes Populares</h2>
+      <div class="card-grid" id="movies-grid"></div>
+    </section>
+  </main>
+
+  <div class="modal" id="video-modal">
+    <div class="modal-content">
+      <button class="close-btn" id="close-modal">&times;</button>
+      <h3 id="modal-title">Título do Filme</h3>
+      <div class="video-wrapper">
+        <iframe id="video-player" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
